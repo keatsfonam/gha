@@ -64,13 +64,13 @@ jobs:
     #     commenter_type: tflint
     #     commenter_input: ${{ format('{0}{1}', steps.tflint.outputs.stdout, steps.tflint.outputs.stderr) }}
     #     commenter_exitcode: ${{ steps.tflint.outputs.exitcode }}
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -chdir=terraform/modules -lock=false -input=false |& tee tf_plan.txt
-      - uses: GetTerminus/terraform-pr-commenter@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          commenter_type: plan
-          commenter_plan_path: tf_plan.txt
-          commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
+    #  - name: Terraform Plan
+    #    id: plan
+    #    run: terraform plan -chdir=terraform/modules -lock=false -input=false |& tee tf_plan.txt
+    #  - uses: GetTerminus/terraform-pr-commenter@v3
+    #    env:
+    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #    with:
+    #      commenter_type: plan
+    #      commenter_plan_path: tf_plan.txt
+    #      commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
