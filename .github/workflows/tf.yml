@@ -37,7 +37,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform -chdir=terraform/modules init
 
       - name: Post Init
         if: always() && github.ref != 'refs/heads/main' && (steps.init.outcome == 'success' || steps.init.outcome == 'failure')
@@ -49,7 +49,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate
+        run: terraform -chdir=terraform/modules validate
 
       - name: Post Validate
         if: always() && github.ref != 'refs/heads/main' && (steps.validate.outcome == 'success' || steps.validate.outcome == 'failure')
@@ -61,7 +61,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -out workspace.plan
+        run: terraform -chdir=terraform/modules plan -out workspace.plan
 
       - name: Post Plan
         if: always() && github.ref != 'refs/heads/main' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
@@ -74,4 +74,4 @@ jobs:
       - name: Terraform Apply
         id: apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply workspace.plan
+        run: terraform -chdir=terraform/modules apply workspace.plan
