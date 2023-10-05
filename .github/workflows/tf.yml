@@ -29,7 +29,7 @@ jobs:
           commenter_exitcode: ${{ steps.fmt.outputs.exitcode }}
       - name: Terraform Init
         id: init
-        run: terraform init -lock=false -input=false
+        run: terraform -chdir=terraform/modules init -lock=false -input=false
       - name: Post Init Comment
         if: ${{ always() && (steps.init.outcome == 'success' || steps.init.outcome == 'failure') }}
         uses: GetTerminus/terraform-pr-commenter@v3
@@ -39,7 +39,7 @@ jobs:
           commenter_exitcode: ${{ steps.init.outputs.exitcode }}
       - name: Terraform Validate
         id: validate
-        run: terraform validate
+        run: terraform -chdir=terraform/modules validate
       - name: Post TF Validate Comment
         if: ${{ always() && (steps.validate.outcome == 'success' || steps.validate.outcome == 'failure') }}
         uses: GetTerminus/terraform-pr-commenter@v3
@@ -66,7 +66,7 @@ jobs:
     #     commenter_exitcode: ${{ steps.tflint.outputs.exitcode }}
       - name: Terraform Plan
         id: plan
-        run: terraform plan -lock=false -input=false |& tee tf_plan.txt
+        run: terraform plan -chdir=terraform/modules -lock=false -input=false |& tee tf_plan.txt
       - uses: GetTerminus/terraform-pr-commenter@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
