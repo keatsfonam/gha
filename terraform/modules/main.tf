@@ -10,6 +10,6 @@ resource "random_id" "id2" {
 }
 
 
-resource "random_id" "id2" {
+resource "random_id" "id3" {
         byte_length = "badstring"
 }
